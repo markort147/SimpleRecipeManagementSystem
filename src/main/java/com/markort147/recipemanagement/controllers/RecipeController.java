@@ -39,46 +39,40 @@ public class RecipeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(
+    public ResponseEntity<Void> deleteById(
             @PathVariable long id,
             @AuthenticationPrincipal AppUserDetails userDetails) {
-        return recipeService.findById(id).map(existingRecipe -> {
-                    if (!recipeService.isChefOfRecipe(id, userDetails)) {
-                        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-                    }
-                    recipeService.deleteById(id);
-                    return ResponseEntity.noContent().build();
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        if (recipeService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        if (!recipeService.isChefOfRecipe(id, userDetails)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        recipeService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateById(
+    public ResponseEntity<Void> updateById(
             @PathVariable long id,
             @RequestBody @Valid Recipe updatedRecipe,
             @AuthenticationPrincipal AppUserDetails userDetails) {
-        return recipeService.findById(id)
-                .map(existingRecipe -> {
-                    if (!recipeService.isChefOfRecipe(id, userDetails)) {
-                        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-                    }
-                    recipeService.updateRecipe(id, updatedRecipe, userDetails);
-                    return ResponseEntity.noContent().build();
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        if (recipeService.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        if (!recipeService.isChefOfRecipe(id, userDetails)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        recipeService.updateRecipe(id, updatedRecipe, userDetails);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/search")
     public ResponseEntity<List<GetRecipeDto>> search(
             @RequestParam(required = false) @NotBlank String category,
             @RequestParam(required = false) @NotBlank String name) {
-
-        List<GetRecipeDto> recipes;
-
         if (category != null ^ name != null) {
-            recipes = category != null ?
-                    recipeService.findByCategory(category) :
-                    recipeService.findByName(name);
+            List<GetRecipeDto> recipes = category != null ? recipeService.findByCategory(category) : recipeService.findByName(name);
             return ResponseEntity.ok(recipes);
         } else {
             return ResponseEntity.badRequest().build();
