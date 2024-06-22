@@ -1,4 +1,4 @@
-package recipes.configs;
+package com.markort147.recipemanagement.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

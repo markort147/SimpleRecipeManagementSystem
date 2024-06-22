@@ -1,5 +1,11 @@
-package recipes.controllers;
+package com.markort147.recipemanagement.controllers;
 
+import com.markort147.recipemanagement.models.AppUser;
+import com.markort147.recipemanagement.repositories.AppUserRepository;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -7,11 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import recipes.models.AppUser;
-import recipes.repositories.AppUserRepository;
-
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 @Controller
 public class UserController {

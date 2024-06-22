@@ -1,8 +1,8 @@
-package recipes.repositories;
+package com.markort147.recipemanagement.repositories;
 
+import com.markort147.recipemanagement.models.Recipe;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import recipes.models.Recipe;
 
 import java.util.List;
 

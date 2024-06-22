@@ -1,4 +1,4 @@
-package recipes;
+package com.markort147.recipemanagement;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;

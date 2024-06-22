@@ -1,21 +1,18 @@
-package recipes.controllers;
+package com.markort147.recipemanagement.controllers;
 
-import org.modelmapper.ModelMapper;
+import com.markort147.recipemanagement.dtos.GetRecipeDto;
+import com.markort147.recipemanagement.dtos.SavedRecipeDto;
+import com.markort147.recipemanagement.models.Recipe;
+import com.markort147.recipemanagement.services.AppUserDetails;
+import com.markort147.recipemanagement.services.RecipeService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import recipes.models.Recipe;
-import recipes.services.AppUserDetails;
-import recipes.services.RecipeService;
-import recipes.dtos.SavedRecipeDto;
-import recipes.dtos.GetRecipeDto;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +20,10 @@ import java.util.Optional;
 @RequestMapping("/api/recipe")
 public class RecipeController {
 
-    private final ModelMapper modelMapper;
     private final RecipeService recipeService;
 
     @Autowired
-    public RecipeController(ModelMapper modelMapper, RecipeService recipeService) {
-        this.modelMapper = modelMapper;
+    public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
 

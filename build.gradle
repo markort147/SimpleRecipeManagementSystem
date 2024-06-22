@@ -1,13 +1,6 @@
-buildscript {
-    apply plugin: 'hyperskill'
-
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$hs.spring.bootVersion"
-        classpath "io.spring.gradle:dependency-management-plugin:$hs.spring.dependencyManagementVersion"
-    }
+plugins {
+    id 'org.springframework.boot' version "3.3.1"
+    id 'java'
 }
 
 apply plugin: 'java'
@@ -18,8 +11,6 @@ repositories {
     mavenCentral()
 }
 
-sourceSets.main.resources.srcDirs = ["src/resources"]
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -28,5 +19,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.modelmapper:modelmapper:3.1.0'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
 }

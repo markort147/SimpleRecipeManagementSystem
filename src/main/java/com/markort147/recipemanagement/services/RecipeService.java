@@ -1,16 +1,15 @@
-package recipes.services;
+package com.markort147.recipemanagement.services;
 
+import com.markort147.recipemanagement.dtos.GetRecipeDto;
+import com.markort147.recipemanagement.dtos.SavedRecipeDto;
+import com.markort147.recipemanagement.models.Recipe;
+import com.markort147.recipemanagement.repositories.AppUserRepository;
+import com.markort147.recipemanagement.repositories.RecipeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import recipes.dtos.SavedRecipeDto;
-import recipes.dtos.GetRecipeDto;
-import recipes.models.AppUser;
-import recipes.models.Recipe;
-import recipes.repositories.AppUserRepository;
-import recipes.repositories.RecipeRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,11 +35,12 @@ public class RecipeService {
                     Recipe savedRecipe = recipeRepository.save(recipe);
                     return modelMapper.map(savedRecipe, SavedRecipeDto.class);
                 })
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + userDetails.getUsername()));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: %s".formatted(userDetails.getUsername())));
     }
 
     public Optional<GetRecipeDto> findById(long id) {
-        return recipeRepository.findById(id).map(recipe -> modelMapper.map(recipe, GetRecipeDto.class));
+        return recipeRepository.findById(id)
+                .map(recipe -> modelMapper.map(recipe, GetRecipeDto.class));
     }
 
     public void deleteById(long id) {
@@ -56,7 +56,7 @@ public class RecipeService {
                             recipeRepository.save(recipe);
                         },
                         () -> {
-                            throw new UsernameNotFoundException("User not found: " + userDetails.getUsername());
+                            throw new UsernameNotFoundException("User not found: %s".formatted(userDetails.getUsername()));
                         });
     }
 

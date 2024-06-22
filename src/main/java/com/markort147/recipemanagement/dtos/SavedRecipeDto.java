@@ -1,4 +1,4 @@
-package recipes.dtos;
+package com.markort147.recipemanagement.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
